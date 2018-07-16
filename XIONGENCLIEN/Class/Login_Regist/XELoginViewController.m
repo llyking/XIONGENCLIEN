@@ -246,7 +246,7 @@
     [sure setTitleColor:WhiteColor forState:UIControlStateNormal];
     sure.titleLabel.font = LSYUIFont(15);
     sure.backgroundColor = ThemeColor;
-    [sure addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [sure addTarget:self action:@selector(hide:) forControlEvents:UIControlEventTouchUpInside];
     [self.bgView addSubview:sure];
     
     [UIView animateWithDuration:0.5 animations:^{
@@ -260,7 +260,14 @@
 -(void)hide {
     
     if (self.textfild.text.length) {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"http://%@/auto/",self.textfild.text] forKey:@"server"];
+        BOOL isValidatIp = [self isValidatIP:self.textfild.text];
+        
+        if (isValidatIp) {
+            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"http://%@/auto/",self.textfild.text] forKey:@"server"];
+        } else {
+            [SVProgressHUD showErrorWithStatus:@"您输入的IP和端口号有误，请重新输入"];
+            return;
+        }
     }
     
     [UIView animateWithDuration:0.5 animations:^{
@@ -271,12 +278,17 @@
     }];
 }
 
--(void)buttonAction:(UIButton *)sender {
+- (BOOL)isValidatIP:(NSString *)ipAddress{
     
-    if (self.textfild.text.length) {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"http://%@/auto/",self.textfild.text] forKey:@"server"];
-    }
-    [self hide];
+    NSString  *urlRegEx =@"^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\."
+    "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
+    "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
+    "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\:"
+    "([0-9]|[1-9]\\d{1,3}|[1-5]\\d{4}|6[0-5]{2}[0-3][0-5])$";
+    
+    NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", urlRegEx];
+    return [urlTest evaluateWithObject:ipAddress];
+    
 }
 
 @end
