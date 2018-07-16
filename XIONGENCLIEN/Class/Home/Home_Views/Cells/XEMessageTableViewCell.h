@@ -1,0 +1,16 @@
+//
+//  XEMessageTableViewCell.h
+//  XIONGEN
+//
+//  Created by Ios on 2018/1/22.
+//  Copyright © 2018年 Ios. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "MessageModel.h"
+
+@interface XEMessageTableViewCell : UITableViewCell
+
+@property (nonatomic,strong) MessageModel *messageM;
+
+@end

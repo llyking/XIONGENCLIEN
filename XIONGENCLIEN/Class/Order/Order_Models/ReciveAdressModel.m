@@ -1,0 +1,13 @@
+//
+//  ReciveAdressModel.m
+//  XIONGENCLIEN
+//
+//  Created by Ios on 2018/3/21.
+//  Copyright © 2018年 Ios. All rights reserved.
+//
+
+#import "ReciveAdressModel.h"
+
+@implementation ReciveAdressModel
+
+@end
